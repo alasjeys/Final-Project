@@ -1,0 +1,311 @@
+{
+  "info": {
+    "name": "Library Management API",
+    "_postman_id": "cpe114-library-api",
+    "description": "CPE 114 Final Project – Complete Postman collection for the Library Management REST API. Covers all CRUD endpoints for Authors, Books, and Members, plus relationship endpoints for borrowing and returning books.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://localhost:3000", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Authors",
+      "description": "Endpoints for managing library authors.",
+      "item": [
+        {
+          "name": "Get All Authors",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{base_url}}/api/authors", "host": ["{{base_url}}"], "path": ["api", "authors"] }
+          },
+          "description": "Returns an array of all authors sorted by name."
+        },
+        {
+          "name": "Get Author By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{base_url}}/api/authors/1", "host": ["{{base_url}}"], "path": ["api", "authors", "1"] }
+          },
+          "description": "Returns a single author by ID including their books. Returns 404 if not found."
+        },
+        {
+          "name": "Create Author",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Jose Rizal\",\n  \"nationality\": \"Filipino\",\n  \"bio\": \"National hero of the Philippines and prolific author.\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/api/authors", "host": ["{{base_url}}"], "path": ["api", "authors"] }
+          },
+          "description": "Creates a new author. Returns 201 on success, 400 if name is missing."
+        },
+        {
+          "name": "Create Author – Missing Name (400)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nationality\": \"Filipino\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/api/authors", "host": ["{{base_url}}"], "path": ["api", "authors"] }
+          },
+          "description": "Tests 400 validation – should return error because name is missing."
+        },
+        {
+          "name": "Update Author",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Jose Rizal\",\n  \"nationality\": \"Filipino\",\n  \"bio\": \"Updated biography text.\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/api/authors/1", "host": ["{{base_url}}"], "path": ["api", "authors", "1"] }
+          },
+          "description": "Updates an existing author by ID. Returns 404 if not found."
+        },
+        {
+          "name": "Delete Author",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{base_url}}/api/authors/1", "host": ["{{base_url}}"], "path": ["api", "authors", "1"] }
+          },
+          "description": "Deletes an author by ID. Returns 404 if not found."
+        }
+      ]
+    },
+    {
+      "name": "Books",
+      "description": "Endpoints for managing library books.",
+      "item": [
+        {
+          "name": "Get All Books",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{base_url}}/api/books", "host": ["{{base_url}}"], "path": ["api", "books"] }
+          },
+          "description": "Returns all books with their author details."
+        },
+        {
+          "name": "Get Book By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{base_url}}/api/books/1", "host": ["{{base_url}}"], "path": ["api", "books", "1"] }
+          },
+          "description": "Returns a single book by ID, including its author and current borrowers. Returns 404 if not found."
+        },
+        {
+          "name": "Create Book",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Noli Me Tangere\",\n  \"isbn\": \"978-971-10-0291-1\",\n  \"genre\": \"Historical Fiction\",\n  \"publishedYear\": 1887,\n  \"copies\": 5,\n  \"authorId\": 1\n}"
+            },
+            "url": { "raw": "{{base_url}}/api/books", "host": ["{{base_url}}"], "path": ["api", "books"] }
+          },
+          "description": "Creates a new book. Returns 201 on success, 400 if required fields missing."
+        },
+        {
+          "name": "Create Book – Missing Fields (400)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"genre\": \"Fiction\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/api/books", "host": ["{{base_url}}"], "path": ["api", "books"] }
+          },
+          "description": "Tests 400 validation – title, isbn, and authorId are all missing."
+        },
+        {
+          "name": "Update Book",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Noli Me Tangere (Revised Edition)\",\n  \"copies\": 10\n}"
+            },
+            "url": { "raw": "{{base_url}}/api/books/1", "host": ["{{base_url}}"], "path": ["api", "books", "1"] }
+          },
+          "description": "Updates an existing book by ID. Returns 404 if not found."
+        },
+        {
+          "name": "Delete Book",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{base_url}}/api/books/1", "host": ["{{base_url}}"], "path": ["api", "books", "1"] }
+          },
+          "description": "Deletes a book by ID. Returns 404 if not found."
+        },
+        {
+          "name": "Get Book Borrowers (Relationship)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{base_url}}/api/books/1/borrowers", "host": ["{{base_url}}"], "path": ["api", "books", "1", "borrowers"] }
+          },
+          "description": "Lists all members and borrow records for a specific book. Relationship endpoint."
+        }
+      ]
+    },
+    {
+      "name": "Members",
+      "description": "Endpoints for managing library members and their borrow activity.",
+      "item": [
+        {
+          "name": "Get All Members",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{base_url}}/api/members", "host": ["{{base_url}}"], "path": ["api", "members"] }
+          },
+          "description": "Returns all library members sorted by name."
+        },
+        {
+          "name": "Get Member By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{base_url}}/api/members/1", "host": ["{{base_url}}"], "path": ["api", "members", "1"] }
+          },
+          "description": "Returns a single member by ID with all borrowed books. Returns 404 if not found."
+        },
+        {
+          "name": "Create Member",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Juan dela Cruz\",\n  \"email\": \"juan@example.com\",\n  \"phone\": \"09171234567\",\n  \"address\": \"123 Rizal Street, Manila\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/api/members", "host": ["{{base_url}}"], "path": ["api", "members"] }
+          },
+          "description": "Creates a new library member. Returns 201 on success, 400 if name or email is missing."
+        },
+        {
+          "name": "Create Member – Missing Email (400)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Maria Clara\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/api/members", "host": ["{{base_url}}"], "path": ["api", "members"] }
+          },
+          "description": "Tests 400 validation – email is required but missing."
+        },
+        {
+          "name": "Update Member",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone\": \"09199999999\",\n  \"address\": \"456 Mabini Street, Quezon City\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/api/members/1", "host": ["{{base_url}}"], "path": ["api", "members", "1"] }
+          },
+          "description": "Updates an existing member by ID. Returns 404 if not found."
+        },
+        {
+          "name": "Delete Member",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{base_url}}/api/members/1", "host": ["{{base_url}}"], "path": ["api", "members", "1"] }
+          },
+          "description": "Deletes a member by ID. Returns 404 if not found."
+        },
+        {
+          "name": "Borrow Book (Relationship)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bookId\": 1,\n  \"dueDate\": \"2025-06-30\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/api/members/1/borrow", "host": ["{{base_url}}"], "path": ["api", "members", "1", "borrow"] }
+          },
+          "description": "Member borrows a book. Creates a BorrowRecord and decrements available copies. Returns 201 on success."
+        },
+        {
+          "name": "Return Book (Relationship)",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": { "raw": "{{base_url}}/api/members/1/return/1", "host": ["{{base_url}}"], "path": ["api", "members", "1", "return", "1"] }
+          },
+          "description": "Member returns a borrowed book. Updates the BorrowRecord status and increments available copies. Returns 404 if record not found."
+        },
+        {
+          "name": "Get Member Borrow History (Relationship)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{base_url}}/api/members/1/borrows", "host": ["{{base_url}}"], "path": ["api", "members", "1", "borrows"] }
+          },
+          "description": "Returns all borrow records for a specific member including book details."
+        }
+      ]
+    },
+    {
+      "name": "Error Cases",
+      "description": "Tests for 404 and undefined route handling.",
+      "item": [
+        {
+          "name": "Undefined Route (404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{base_url}}/api/undefined-route", "host": ["{{base_url}}"], "path": ["api", "undefined-route"] }
+          },
+          "description": "Tests the 404 catch-all middleware. Any undefined route should return a JSON 404 error."
+        },
+        {
+          "name": "Author Not Found (404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{base_url}}/api/authors/99999", "host": ["{{base_url}}"], "path": ["api", "authors", "99999"] }
+          },
+          "description": "Tests 404 response for a non-existent author ID."
+        },
+        {
+          "name": "Book Not Found (404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{base_url}}/api/books/99999", "host": ["{{base_url}}"], "path": ["api", "books", "99999"] }
+          },
+          "description": "Tests 404 response for a non-existent book ID."
+        },
+        {
+          "name": "Member Not Found (404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{base_url}}/api/members/99999", "host": ["{{base_url}}"], "path": ["api", "members", "99999"] }
+          },
+          "description": "Tests 404 response for a non-existent member ID."
+        }
+      ]
+    }
+  ]
+}
