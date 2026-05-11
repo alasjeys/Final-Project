@@ -29,7 +29,7 @@ const Book = sequelize.define('Book', {
     allowNull: false,
     defaultValue: 1,
   },
-  // authorId FK is added by association
+
 }, {
   tableName: 'books',
   timestamps: true,
