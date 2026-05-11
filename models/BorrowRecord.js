@@ -1,7 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-// Junction table for the many-to-many relationship between Members and Books
 const BorrowRecord = sequelize.define('BorrowRecord', {
   id: {
     type: DataTypes.INTEGER,
@@ -26,7 +25,7 @@ const BorrowRecord = sequelize.define('BorrowRecord', {
     allowNull: false,
     defaultValue: 'borrowed',
   },
-  // MemberId and BookId FKs are added by associations
+
 }, {
   tableName: 'borrow_records',
   timestamps: true,
