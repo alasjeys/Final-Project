@@ -8,8 +8,8 @@ const sequelize = new Sequelize(
   {
     host: process.env.DB_HOST || 'localhost',
     port: process.env.DB_PORT || 3306,
-    dialect: 'mysql',       // MariaDB is MySQL-compatible; mysql2 driver works perfectly
-    logging: false,         // set to console.log to see raw SQL
+    dialect: 'mysql',       
+    logging: false,         
   }
 );
 
