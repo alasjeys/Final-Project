@@ -4,11 +4,11 @@ const Book = require('./Book');
 const Member = require('./Member');
 const BorrowRecord = require('./BorrowRecord');
 
-// ── One-to-Many: Author ──► Books ─────────────────────────────────────────────
+// One-to-Many: Author ----> Books
 Author.hasMany(Book, { foreignKey: 'authorId', as: 'books', onDelete: 'CASCADE' });
 Book.belongsTo(Author, { foreignKey: 'authorId', as: 'author' });
 
-// ── Many-to-Many: Members ◄──► Books  (through BorrowRecord) ─────────────────
+// Many-to-Many: Members <----> Books  (through BorrowRecord) 
 Member.belongsToMany(Book, { through: BorrowRecord, foreignKey: 'MemberId', as: 'borrowedBooks' });
 Book.belongsToMany(Member, { through: BorrowRecord, foreignKey: 'BookId', as: 'borrowers' });
 
